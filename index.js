@@ -16,7 +16,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(file);
 
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 8080));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -80,7 +80,7 @@ app.post('/adjs/*',function(request, response){
 })
 
 
-app.listen(app.get('port'), function() {
+app.listen(8080, function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
