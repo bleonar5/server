@@ -4,6 +4,7 @@ var fs = require('fs');
 var file = "adjs.db";
 var exists = fs.existsSync(file);
 var http = require('http');
+var https = require('https');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,7 +17,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(file);
 
 
-app.set('port', (process.env.PORT || 8080));
+//app.set('port', (process.env.PORT || 8080));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -79,9 +80,13 @@ app.post('/adjs/*',function(request, response){
 
 })
 
+var options = {
+	key: fs.readFileSync('brian.pem'),
+	cert: fs.readFileSync('/etc/ssl/certs/ca-certificates.crt'),
+};
 
-app.listen(8080, function() {
-  console.log('Node app is running on port', app.get('port'));
+https.createServer(options,app).listen(443,function(){
+	console.log('HTTPS listening on port 443');
 });
 
 
